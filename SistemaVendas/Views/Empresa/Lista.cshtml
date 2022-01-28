@@ -1,0 +1,37 @@
+﻿@model List<SistemaVendas.Context.Tb_Empresa>
+
+@{
+    ViewBag.Title = "Lista de Empresas";
+}
+
+<h2>Lista de Empresas</h2>
+
+<div class="row">
+    <div class="col-lg-12">
+        <table class="table-striped table-responsive table table-bordered" style="width: 100%;">
+            <thead>
+                <tr>
+                    <th>Id da Empresa</th>
+                    <th>Id do Usuário</th>
+                    <th>Razão Social</th>
+                    <th>CNPJ</th>
+                    <th>Endereço</th>
+                    <th>Telefone</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.IdEmpresa</td>
+                        <td>@item.IdUsuarioCadastro</td>
+                        <td>@item.RazaoSocial</td>
+                        <td>@item.Cnpj</td>
+                        <td>@item.Endereco</td>
+                        <td>@item.Telefone</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

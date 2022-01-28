@@ -1,0 +1,37 @@
+﻿@model List<SistemaVendas.Context.Tb_Vendas>
+
+@{
+    ViewBag.Title = "Lista de Vendas";
+}
+
+<h2>Lista de Vendas</h2>
+
+<div class="row">
+    <div class="col-lg-12">
+        <table class="table-striped table-responsive table table-bordered" style="width: 100%;">
+            <thead>
+                <tr>
+                    <th>Id Venda</th>
+                    <th>Id Empresa</th>
+                    <th>Id Usuário</th>
+                    <th>Data da Venda</th>
+                    <th>Valor da Venda</th>
+                    <th>NF Emitida?</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.IdVenda</td>
+                        <td>@item.IdEmpresa</td>
+                        <td>@item.IdUsuarioCadastro</td>
+                        <td>@item.DataVenda.ToString("dd/MM/yyyy")</td>
+                        <td>@item.ValorVenda.ToString("n2")</td>
+                        <td>@(item.EmitidoNF ? "Sim" : "Não")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

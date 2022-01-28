@@ -1,0 +1,30 @@
+﻿@model SistemaVendas.Context.Tb_SegmentoEmpresa
+
+@{
+    ViewBag.Title = "Cadastro de Segmento de Empresa";
+}
+
+<h2>Cadastro de Segmento de Empresa</h2>
+@using (Html.BeginForm("CadastrarSegmentoEmpresa", "SegmentoEmpresa", FormMethod.Post))
+{
+<div class="container">
+    <div class="form-group">
+        <label>Descrição do Segmento</label>
+        @Html.ValidationMessageFor(x => x.DesSegmento, "", new { @class = "error" })
+        @Html.TextBoxFor(x => x.DesSegmento, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        <label>Ativo ?</label>
+        @Html.CheckBoxFor(x => x.Ativo, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        <label>Digite o Id da Empresa (Não consegui incluir um dropdown com as opções)</label>
+        @Html.ValidationMessageFor(x => x.IdEmpresa, "", new { @class = "error" })
+        @Html.TextBoxFor(x => x.IdEmpresa, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Cadastrar!</button>
+    </div>
+</div>
+}
+

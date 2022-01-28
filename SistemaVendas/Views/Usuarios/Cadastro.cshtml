@@ -1,0 +1,40 @@
+﻿@model SistemaVendas.Context.Tb_Usuario
+@{
+    ViewBag.Title = "Cadastro de Usuários";
+}
+
+<h2>Cadastro de Usuário</h2>
+
+@using (Html.BeginForm("CadastrarUsuario", "Usuarios", FormMethod.Post))
+{
+<div class="container">
+    <div class="form-group">
+        <label>Nome</label>
+        @Html.ValidationMessageFor(x => x.Nome, "", new { @class = "error" })
+        @Html.TextBoxFor(x => x.Nome, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        <label>Cpf</label>
+        @Html.ValidationMessageFor(x => x.Cpf, "", new { @class = "error" })
+        @Html.TextBoxFor(x => x.Cpf, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        <label>Telefone</label>
+        @Html.ValidationMessageFor(x => x.Telefone, "", new { @class = "error" })
+        @Html.TextBoxFor(x => x.Telefone, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        <label>Login</label>
+        @Html.ValidationMessageFor(x => x.DesLogin, "", new { @class = "error" })
+        @Html.TextBoxFor(x => x.DesLogin, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        <label>Senha</label>
+        @Html.ValidationMessageFor(x => x.Senha, "", new { @class = "error" })
+        @Html.TextBoxFor(x => x.Senha, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Cadastrar!</button>
+    </div>
+</div>
+}

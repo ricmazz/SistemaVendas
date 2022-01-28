@@ -1,0 +1,320 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SistemaVendasDatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Tb_Empresa">
+          <Key>
+            <PropertyRef Name="IdEmpresa" />
+          </Key>
+          <Property Name="IdEmpresa" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdUsuarioCadastro" Type="bigint" Nullable="false" />
+          <Property Name="RazaoSocial" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Cnpj" Type="nvarchar" MaxLength="18" Nullable="false" />
+          <Property Name="Endereco" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Telefone" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="Tb_SegmentoEmpresa">
+          <Key>
+            <PropertyRef Name="IdSegmentoEmpresa" />
+          </Key>
+          <Property Name="IdSegmentoEmpresa" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdEmpresa" Type="bigint" Nullable="false" />
+          <Property Name="DesSegmento" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Ativo" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Tb_Usuario">
+          <Key>
+            <PropertyRef Name="IdUsuario" />
+          </Key>
+          <Property Name="IdUsuario" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nome" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Cpf" Type="nvarchar" MaxLength="14" Nullable="false" />
+          <Property Name="Telefone" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="DesLogin" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Senha" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Tb_Vendas">
+          <Key>
+            <PropertyRef Name="IdVenda" />
+          </Key>
+          <Property Name="IdVenda" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdEmpresa" Type="bigint" Nullable="false" />
+          <Property Name="IdUsuarioCadastro" Type="bigint" Nullable="false" />
+          <Property Name="ValorVenda" Type="numeric" Precision="11" Scale="2" Nullable="false" />
+          <Property Name="DataVenda" Type="datetime" Nullable="false" />
+          <Property Name="EmitidoNF" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Tb_Empresa_Tb_Usuario">
+          <End Role="Tb_Usuario" Type="Self.Tb_Usuario" Multiplicity="1" />
+          <End Role="Tb_Empresa" Type="Self.Tb_Empresa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tb_Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="Tb_Empresa">
+              <PropertyRef Name="IdUsuarioCadastro" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tb_SegmentoEmpresa_Tb_Empresa">
+          <End Role="Tb_Empresa" Type="Self.Tb_Empresa" Multiplicity="1" />
+          <End Role="Tb_SegmentoEmpresa" Type="Self.Tb_SegmentoEmpresa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tb_Empresa">
+              <PropertyRef Name="IdEmpresa" />
+            </Principal>
+            <Dependent Role="Tb_SegmentoEmpresa">
+              <PropertyRef Name="IdEmpresa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tb_Vendas_Tb_Empresa">
+          <End Role="Tb_Empresa" Type="Self.Tb_Empresa" Multiplicity="1" />
+          <End Role="Tb_Vendas" Type="Self.Tb_Vendas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tb_Empresa">
+              <PropertyRef Name="IdEmpresa" />
+            </Principal>
+            <Dependent Role="Tb_Vendas">
+              <PropertyRef Name="IdEmpresa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tb_Vendas_Tb_Usuario">
+          <End Role="Tb_Usuario" Type="Self.Tb_Usuario" Multiplicity="1" />
+          <End Role="Tb_Vendas" Type="Self.Tb_Vendas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tb_Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="Tb_Vendas">
+              <PropertyRef Name="IdUsuarioCadastro" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SistemaVendasDatabaseModelStoreContainer">
+          <EntitySet Name="Tb_Empresa" EntityType="Self.Tb_Empresa" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tb_SegmentoEmpresa" EntityType="Self.Tb_SegmentoEmpresa" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tb_Usuario" EntityType="Self.Tb_Usuario" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tb_Vendas" EntityType="Self.Tb_Vendas" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Tb_Empresa_Tb_Usuario" Association="Self.FK_Tb_Empresa_Tb_Usuario">
+            <End Role="Tb_Usuario" EntitySet="Tb_Usuario" />
+            <End Role="Tb_Empresa" EntitySet="Tb_Empresa" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tb_SegmentoEmpresa_Tb_Empresa" Association="Self.FK_Tb_SegmentoEmpresa_Tb_Empresa">
+            <End Role="Tb_Empresa" EntitySet="Tb_Empresa" />
+            <End Role="Tb_SegmentoEmpresa" EntitySet="Tb_SegmentoEmpresa" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tb_Vendas_Tb_Empresa" Association="Self.FK_Tb_Vendas_Tb_Empresa">
+            <End Role="Tb_Empresa" EntitySet="Tb_Empresa" />
+            <End Role="Tb_Vendas" EntitySet="Tb_Vendas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tb_Vendas_Tb_Usuario" Association="Self.FK_Tb_Vendas_Tb_Usuario">
+            <End Role="Tb_Usuario" EntitySet="Tb_Usuario" />
+            <End Role="Tb_Vendas" EntitySet="Tb_Vendas" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SistemaVendasDatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Tb_Empresa">
+          <Key>
+            <PropertyRef Name="IdEmpresa" />
+          </Key>
+          <Property Name="IdEmpresa" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdUsuarioCadastro" Type="Int64" Nullable="false" />
+          <Property Name="RazaoSocial" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Cnpj" Type="String" MaxLength="18" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Endereco" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Telefone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Tb_Usuario" Relationship="Self.FK_Tb_Empresa_Tb_Usuario" FromRole="Tb_Empresa" ToRole="Tb_Usuario" />
+          <NavigationProperty Name="Tb_SegmentoEmpresa" Relationship="Self.FK_Tb_SegmentoEmpresa_Tb_Empresa" FromRole="Tb_Empresa" ToRole="Tb_SegmentoEmpresa" />
+          <NavigationProperty Name="Tb_Vendas" Relationship="Self.FK_Tb_Vendas_Tb_Empresa" FromRole="Tb_Empresa" ToRole="Tb_Vendas" />
+        </EntityType>
+        <EntityType Name="Tb_SegmentoEmpresa">
+          <Key>
+            <PropertyRef Name="IdSegmentoEmpresa" />
+          </Key>
+          <Property Name="IdSegmentoEmpresa" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdEmpresa" Type="Int64" Nullable="false" />
+          <Property Name="DesSegmento" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Ativo" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Tb_Empresa" Relationship="Self.FK_Tb_SegmentoEmpresa_Tb_Empresa" FromRole="Tb_SegmentoEmpresa" ToRole="Tb_Empresa" />
+        </EntityType>
+        <EntityType Name="Tb_Usuario">
+          <Key>
+            <PropertyRef Name="IdUsuario" />
+          </Key>
+          <Property Name="IdUsuario" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nome" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Cpf" Type="String" MaxLength="14" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Telefone" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DesLogin" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Senha" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Tb_Empresa" Relationship="Self.FK_Tb_Empresa_Tb_Usuario" FromRole="Tb_Usuario" ToRole="Tb_Empresa" />
+          <NavigationProperty Name="Tb_Vendas" Relationship="Self.FK_Tb_Vendas_Tb_Usuario" FromRole="Tb_Usuario" ToRole="Tb_Vendas" />
+        </EntityType>
+        <EntityType Name="Tb_Vendas">
+          <Key>
+            <PropertyRef Name="IdVenda" />
+          </Key>
+          <Property Name="IdVenda" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdEmpresa" Type="Int64" Nullable="false" />
+          <Property Name="IdUsuarioCadastro" Type="Int64" Nullable="false" />
+          <Property Name="ValorVenda" Type="Decimal" Precision="11" Scale="2" Nullable="false" />
+          <Property Name="DataVenda" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EmitidoNF" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Tb_Empresa" Relationship="Self.FK_Tb_Vendas_Tb_Empresa" FromRole="Tb_Vendas" ToRole="Tb_Empresa" />
+          <NavigationProperty Name="Tb_Usuario" Relationship="Self.FK_Tb_Vendas_Tb_Usuario" FromRole="Tb_Vendas" ToRole="Tb_Usuario" />
+        </EntityType>
+        <Association Name="FK_Tb_Empresa_Tb_Usuario">
+          <End Role="Tb_Usuario" Type="Self.Tb_Usuario" Multiplicity="1" />
+          <End Role="Tb_Empresa" Type="Self.Tb_Empresa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tb_Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="Tb_Empresa">
+              <PropertyRef Name="IdUsuarioCadastro" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tb_SegmentoEmpresa_Tb_Empresa">
+          <End Role="Tb_Empresa" Type="Self.Tb_Empresa" Multiplicity="1" />
+          <End Role="Tb_SegmentoEmpresa" Type="Self.Tb_SegmentoEmpresa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tb_Empresa">
+              <PropertyRef Name="IdEmpresa" />
+            </Principal>
+            <Dependent Role="Tb_SegmentoEmpresa">
+              <PropertyRef Name="IdEmpresa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tb_Vendas_Tb_Empresa">
+          <End Role="Tb_Empresa" Type="Self.Tb_Empresa" Multiplicity="1" />
+          <End Role="Tb_Vendas" Type="Self.Tb_Vendas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tb_Empresa">
+              <PropertyRef Name="IdEmpresa" />
+            </Principal>
+            <Dependent Role="Tb_Vendas">
+              <PropertyRef Name="IdEmpresa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tb_Vendas_Tb_Usuario">
+          <End Role="Tb_Usuario" Type="Self.Tb_Usuario" Multiplicity="1" />
+          <End Role="Tb_Vendas" Type="Self.Tb_Vendas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tb_Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="Tb_Vendas">
+              <PropertyRef Name="IdUsuarioCadastro" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SistemaVendasDatabaseEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Tb_Empresa" EntityType="Self.Tb_Empresa" />
+          <EntitySet Name="Tb_SegmentoEmpresa" EntityType="Self.Tb_SegmentoEmpresa" />
+          <EntitySet Name="Tb_Usuario" EntityType="Self.Tb_Usuario" />
+          <EntitySet Name="Tb_Vendas" EntityType="Self.Tb_Vendas" />
+          <AssociationSet Name="FK_Tb_Empresa_Tb_Usuario" Association="Self.FK_Tb_Empresa_Tb_Usuario">
+            <End Role="Tb_Usuario" EntitySet="Tb_Usuario" />
+            <End Role="Tb_Empresa" EntitySet="Tb_Empresa" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tb_SegmentoEmpresa_Tb_Empresa" Association="Self.FK_Tb_SegmentoEmpresa_Tb_Empresa">
+            <End Role="Tb_Empresa" EntitySet="Tb_Empresa" />
+            <End Role="Tb_SegmentoEmpresa" EntitySet="Tb_SegmentoEmpresa" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tb_Vendas_Tb_Empresa" Association="Self.FK_Tb_Vendas_Tb_Empresa">
+            <End Role="Tb_Empresa" EntitySet="Tb_Empresa" />
+            <End Role="Tb_Vendas" EntitySet="Tb_Vendas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tb_Vendas_Tb_Usuario" Association="Self.FK_Tb_Vendas_Tb_Usuario">
+            <End Role="Tb_Usuario" EntitySet="Tb_Usuario" />
+            <End Role="Tb_Vendas" EntitySet="Tb_Vendas" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SistemaVendasDatabaseModelStoreContainer" CdmEntityContainer="SistemaVendasDatabaseEntities">
+          <EntitySetMapping Name="Tb_Empresa">
+            <EntityTypeMapping TypeName="SistemaVendasDatabaseModel.Tb_Empresa">
+              <MappingFragment StoreEntitySet="Tb_Empresa">
+                <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+                <ScalarProperty Name="IdUsuarioCadastro" ColumnName="IdUsuarioCadastro" />
+                <ScalarProperty Name="RazaoSocial" ColumnName="RazaoSocial" />
+                <ScalarProperty Name="Cnpj" ColumnName="Cnpj" />
+                <ScalarProperty Name="Endereco" ColumnName="Endereco" />
+                <ScalarProperty Name="Telefone" ColumnName="Telefone" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tb_SegmentoEmpresa">
+            <EntityTypeMapping TypeName="SistemaVendasDatabaseModel.Tb_SegmentoEmpresa">
+              <MappingFragment StoreEntitySet="Tb_SegmentoEmpresa">
+                <ScalarProperty Name="IdSegmentoEmpresa" ColumnName="IdSegmentoEmpresa" />
+                <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+                <ScalarProperty Name="DesSegmento" ColumnName="DesSegmento" />
+                <ScalarProperty Name="Ativo" ColumnName="Ativo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tb_Usuario">
+            <EntityTypeMapping TypeName="SistemaVendasDatabaseModel.Tb_Usuario">
+              <MappingFragment StoreEntitySet="Tb_Usuario">
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="Cpf" ColumnName="Cpf" />
+                <ScalarProperty Name="Telefone" ColumnName="Telefone" />
+                <ScalarProperty Name="DesLogin" ColumnName="DesLogin" />
+                <ScalarProperty Name="Senha" ColumnName="Senha" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tb_Vendas">
+            <EntityTypeMapping TypeName="SistemaVendasDatabaseModel.Tb_Vendas">
+              <MappingFragment StoreEntitySet="Tb_Vendas">
+                <ScalarProperty Name="IdVenda" ColumnName="IdVenda" />
+                <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+                <ScalarProperty Name="IdUsuarioCadastro" ColumnName="IdUsuarioCadastro" />
+                <ScalarProperty Name="ValorVenda" ColumnName="ValorVenda" />
+                <ScalarProperty Name="DataVenda" ColumnName="DataVenda" />
+                <ScalarProperty Name="EmitidoNF" ColumnName="EmitidoNF" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
