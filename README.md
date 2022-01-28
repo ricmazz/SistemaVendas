@@ -10,7 +10,7 @@
 	- Tela de Cadastro/Visualização Usuários;
 
 # Esquema do Banco
-<img src="https://github.com/ricmazz/SistemaVendas/blob/main/Banco.png?raw=true" />
+<img src="https://github.com/ricmazz/SistemaVendas/blob/master/SistemaVendas/Banco.png?raw=true" />
 
 # Script para Criação do Banco
 - Rodar scripts abaixo para realizar a criação da base de dados.
